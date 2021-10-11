@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | QA</title>
+    <script 
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous">
+    </script>
+
+
+</head>
+<body>
+    <h1> Đây là trang đăng nhập</h1>
+
+    <form action="#" method="POST">
+        <div>
+            Username: <input id="identifier" type="text" name="identifier">
+        </div>
+        <div>
+            Password: <input id="password" type="text" name="password">
+        </div>
+        <div>  
+            <button type="button" id="btnLogin">Đăng nhập</button>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            $('#btnLogin').click(function(){
+            //Lấy giá trị trừ textbox
+                var identifier = $('#identifier').val()
+                var password = $('#password').val()
+
+                console.log('identifier', identifier)
+                console.log('password', password)
+
+                  //ajax post example Đăng nhập
+                  $.ajax({
+                   url : "http://localhost:1337/auth/local",
+                   type: "POST",
+                   data : {
+                       identifier: identifier,
+                       password: password
+                   },
+                   success: function(data, textStatus, jqXHR)
+                   {
+                       alert('Đăng nhập thành công')
+                       window.localStorage.setItem('jwt', data.jwt)
+                       window.localStorage.setItem('user', data.user)
+                       console.log('data', data)
+
+                       window.location.href = "index.html"
+
+                   },
+                   error: function (jqXHR, textStatus, errorThrown)
+                   {
+                       alert('Đăng nhập thất bại')
+                       console.log('textStatus', textStatus)
+                       console.log('errorThrown', errorThrown)
+                   }
+                });
+            })
+        })
+    </script>
+</body>
+</html>
